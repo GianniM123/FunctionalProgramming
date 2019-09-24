@@ -1,0 +1,19 @@
+Grade: 4 
+
+3.5 Quicktest:
+Well done on the first two parts.
+
+Runs and isqrt should be tested using the combinators:
+
+When making runTest, the idea is to test runs with the combinators (?->). Thus you need some probes and a property to check the result with. The probes should be of type Probes [a]. We already made af function of that type: permutations. Our property is more tricky, it should check if every run is ordered: \r -> and (map ordered r). Thus the combinator becomes:
+
+	(permutations [1..10] ?-> \r -> and (map ordered r))
+
+isIntegerSqrt needs the same structure as runTest. Thus we first need probes, it should work for all numbers, but for times sake we will take the first thounds numbers: [0..1000]. The property is that the result is an integer square root of the input. Thus the imput x should fall between the input r squared and r+1 squared: \x r -> r*r < x && x < (r+1)*(r+1). Thus the combinator becomes:
+	([0..1000] ?=> \x r -> r*r < x && x < (r+1)*(r+1))
+
+Well done on the comb exercise.
+
+3.32 Roman:
+Very well done and good use of composition
+
