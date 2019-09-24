@@ -1,0 +1,77 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\begin{document}
+
+
+\textbf{Name:} Gianni Monteban \\
+\textbf{Studentnumber:} s1047546
+
+\section{Exercise class}
+\begin{verbatim}
+f1 (a, b) -> a
+f1 (x,y) = x
+
+f2 (a,a) -> (a,a)    all same datatype
+f2 (x,y) -> (x,y)
+
+f3 (a,b) -> (b,a)
+f3 (x,y) -> (y,x)
+
+f4 (a -> b)-> a -> b
+f4 f x = f (x)
+
+f5 (a,c) -> a
+f5 (x,y) = x
+
+f6 (c -> a -> b, a, c) -> b
+f6 (f, a, c) = f (c) (a)
+
+f7 (a -> b, c -> a, c) -> b
+f7 (f,g,c) = f(g (c))
+
+f8 (c->a->b, c->a, c) -> b
+f8 (f,g,c) = f (c) (g(c))
+
+f9 Int -> (Int -> Int)
+f9 x y = x + y
+
+f10 (Int -> Int) -> Int
+f10 f = f 1
+
+f11 a -> (a -> a)
+f11 x y = x
+f11 x = \y -> y
+
+f12 (a -> a) -> a
+f12 f = 
+can't
+
+
+\end{verbatim}
+
+\section{Exercise 2.3}
+The Int is overflowing at a certain point. \\
+The integer can be unlimited long. The int is limited at $2^{63} - 1$ after this value the int will overflow. When the number gets to large the int will take a modulo of $2^{64}$ and save the module as the value. After $66!$ the modulo of the value is always 0, this means the Int will always be 0.
+
+
+\section{Exercise 2.7}
+\begin{verbatim}
+
+
+f1 x = x
+f1 :: a -> a 
+
+f3 x = (snd x, fst x)  
+f3 :: (a,b) -> (b,a)
+
+f6 x y = (x,(y,y),x)
+f6 :: a -> b -> (a,(b,b),a)
+\end{verbatim}
+
+\section{Exercise 2.8}
+
+See .hs file
+\end{document}

@@ -1,0 +1,56 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\begin{document}
+
+
+\textbf{Names: } Gianni Monteban and Martijn Vogelaar\\
+\textbf{Studentnumbers: } s1047546 and s1047391
+
+
+\section{Exercise 3.3}
+
+
+\section{Tutorial}
+\begin{verbatim}
+return an infinite list of all the elements
+allElements :: a -> [a]
+allElements x = x: allElements
+
+step :: (Enum a) => a -> [a]
+step x = [x..]
+
+fromStep (Num a) => a -> a-> [a]
+fromStep x y = x : fromStep (x+y) (y)
+
+fromTo :: (Enum a, Ord a) => a -> a ->[a]
+fromTo x y = 
+ | x <= y = [x] ++ fromTo (succ x) (y)
+ | otherwise = []
+ 
+ 
+format:: Int -> [String] -> [[String]]
+format x str = line x str [] []
+
+line :: Int -> [String] -> [String] -> [[String]] -> [[String]]
+line maxLength [] oldLine result = (result ++ [oldline])
+line maxLength (w : ws) oldLine result =
+ | length( unWords oldLine) + (length w) + 1 <= maxLength = 
+ line maxLength (ws) (oldLine ++ [w]) result
+ | otherwise = line maxlength (ws) ([w]) (result ++ [oldLine]) 
+
+([2,3,4] (?->) (>10)) (*2)
+(\f -> and [ (>10) (f x)) | x <- [2,3,4]) (*2)
+and [(>10) (*2) x | x <- [2,3,4]]
+and [False,False,False]
+False && False && False
+False
+
+([[1,2,3],[2,4,7]] (?->) (isSorted)) id
+\end{verbatim}
+
+
+
+\end{document}
