@@ -1,0 +1,55 @@
+data Person = P String String
+data Rating = R Int String
+
+data Tree = Empty | Node (Tree elem) elem (Tree elem) deriving (Show)
+
+data Tree k v = Empty | Node (Tree k v) k v (Tree k v)
+
+type Dictionary = Tree String String
+type StudentRating = Tree Person Rating
+
+insert :: (Ord k) => Tree kv -> k -> v -> Tree k v
+insert Empty key val = Node Empty key value Empty
+insert (Node l nodeKey nodeValue r) key val
+ | key < nodeKey = Node (insert l key val) nodeKey nodeVal r
+ | otherwise = Node l nodeKey nodeVal (insert r key val)
+
+myDictionary :: Dictionary
+myDictionary = insert (insert Empty "Cheese" "Kaas") "Tree" "Boom"
+
+insertAll :: (Ord k) => [(k,v)] -> Tree k v -> Tree k v
+insertAll [] t = t
+insertAll ((key, value):xs) t = insertAll xs (insert t key val) 
+
+myStudentRating :: StudentRating
+myStudentRating = insertAll
+	[(P "Alice" "A", R 8 "Good"),
+	(P "Bob" "B", R 6 "Sufficient"),
+	(P "Charlie" "C", R 3 "Bad")] Empty
+
+instance Ord Person where
+	(P f1 l1) <= (P f2 l2) = if l1 == l2 then f1<= f2 else l1 <= l2
+
+instance Eq Person where
+	(P f1 l1) == (P f2 l2) = f1 == f2 && l1 == l2
+
+
+keyLookup :: (Ord k) => (Tree k v) -> k -> Maybe v 
+keyLookup Empty key = Nothing
+keyLookup (Node l nodeKey nodeVal r) key
+ | nodeKey == key = Just nodeVal
+ | key < nodeKey = keyLookup l key
+ | ohterwise = keyLookup r key
+
+addBonus :: Rating -> Rating
+addBonus (R g f) = R (g+1) f
+addDot :: String -> String
+addDot s = s ++ "."
+addBonusToAll :: StudentRating ->StudentRating
+addBonusToAll tree = treeMap addDot tree
+addDotToAll :: Dictionary -> Dictionary
+addDotToall tree = treeMap addDot tree
+
+treeMap :: (v -> v) -> (Tree k v) -> (Tree k v)
+treeMap f Empty = Empty
+treeMap f (Node l nodeKey nodeVal r) = Node (treeMap g l) (treeMap f r)
