@@ -55,7 +55,7 @@ maxHeight Empty = 0
 maxHeight (Node l _ r) = 1 + (maxHeight l) `max` (maxHeight r)
 
 -- 4.1.5
--- Size is always larger or equal to both maxHeight or minHeight/?/
+-- Size is always larger or equal to both maxHeight and minHeight/?/
 
 member :: (Eq elem) => elem -> Tree elem -> Bool
 member _ Empty = False
@@ -76,27 +76,20 @@ postorder (Node l e r) =  postorder l ++ postorder r ++ [e]
 
 --4.2.1 Running time is O(n)
 
-
-indent :: Int -> String
-indent lengthLeft = replicate lengthLeft ' '
---"   " ++ (indent (lengthLeft-1))
-
-printLayoutLeft :: (Show elem) => Tree elem -> Int -> [String]
-printLayoutLeft Empty _ = []
-printLayoutLeft (Node l n r) layer = (printLayoutLeft l (layer+1)) ++ [(indent (3*layer)) ++ "/" ++ " " ++ show n] ++ (printLayoutRight r (layer+1))
-
-
-printLayoutRight :: (Show elem) => Tree elem -> Int -> [String]
-printLayoutRight Empty _ = []
-printLayoutRight (Node l n r) layer = (printLayoutLeft l (layer+1)) ++ [(indent (3*layer)) ++ "\\" ++ " " ++ show n] ++ (printLayoutRight r (layer+1))
-
-
-printLayout :: (Show elem) => Tree elem -> [String]
-printLayout Empty = []
-printLayout (Node l n r) = (printLayoutLeft l 1) ++ ["- " ++ show n] ++ (printLayoutRight r 1)
+printLayout :: (Show elem) => Tree elem -> Int -> String -> [String]
+printLayout Empty _ _ = []
+printLayout (Node l n r) layer arrow = (printLayout l (layer+1) "/") ++ [(replicate (3*layer) ' ') ++ (if(layer == 0) then "- " else(arrow))++ show n] ++ (printLayout r (layer+1) "\\") 
 
 layout :: (Show elem) => Tree elem -> String
-layout tree = unlines (printLayout tree)
+layout tree = unlines (printLayout tree 0 "")
+
+
+
+
+-- buildSingleElement :: [elem] -> Int -> Tree elem -> Tree elem
+-- buildSingleElement elementList currentDepth (Node l _ r) = l
+
 -- build :: [elem] -> Tree elem
+
 -- balanced :: [elem] -> Tree elem
 -- create :: Int -> Tree ()
