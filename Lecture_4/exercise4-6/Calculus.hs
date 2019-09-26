@@ -51,7 +51,7 @@ simplify (_ :*: Const 0) = Const 0
 simplify (Const x :*: Const y) = Const (x*y)
 simplify (x :*: y) = simplify (simplify x :*: simplify y)
 simplify (Const x :+: Const y) =  Const (x+y)
-simplify (Const (0) :+: f) = f
-simplify (f :+: Const (0)) = f
-simplify ((f) :+: (g)) = if (f==g) then (Const (2) :*: (g))  else ((f) :+: (g)) 
+simplify (Const (0) :+: f) = simplify f
+simplify (f :+: Const (0)) = simplify f
+simplify ((f) :+: (g)) = if (f==g) then (Const (2) :*: (g))  else (simplify(f) :+: simplify(g)) 
 simplify (f) = f
