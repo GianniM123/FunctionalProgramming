@@ -1,3 +1,7 @@
+{-
+Gianni Monteban & Martijn Vogelaar
+1047546 & 1047391
+-}
 module Calculus
 where
 
@@ -5,7 +9,7 @@ data Primitive
   =  Sin  -- trigonometric: sine
   |  Cos                          -- cosine
   |  Exp  -- exponential
-  deriving (Show,Eq)
+  deriving (Show, Eq)
 
 infixl 6 :+:
 infixl 7 :*:
@@ -25,25 +29,22 @@ apply    :: Function -> (Double -> Double)
 apply (f :+: g) v = apply f v + apply g v
 apply (f :*: g) v = apply f v * apply g v
 apply (f :.: g) v = apply f (apply g v)
-apply (Prim p) v
- | p == Sin = sin(v)
- | p == Cos = cos(v)
- | p == Exp = exp(v)
- |otherwise = 0
-apply (Const c) v = fromRational (c)
-apply i v = v
+apply (Prim Sin) v = sin(v)
+apply (Prim Cos) v = cos(v)
+apply (Prim Exp) v = exp(v)
+apply (Const c) _ = fromRational (c)
+apply _ v = v
 
 
 derive   :: Function -> Function
 derive (f :+: g) = derive f :+: derive g 
 derive (f :*: g) = derive f :*: g :+: derive g :*: f
 derive (l :.: r) = (derive l :.: r) :*: derive r
-derive (Prim p)
- | p == Sin = Prim Cos
- | p == Cos = Const (-1) :*: Prim Sin
- | p == Exp = Prim Exp
-derive (Const c) = Const (0)
-derive i = Const (1)
+derive (Prim Sin) = Prim Cos
+derive (Prim Cos) = Const (-1) :*: Prim Sin
+derive (Prim Exp) = Prim Exp
+derive (Const _) = Const (0)
+derive _ = Const (1)
 
 
 -- simplify (Id :*: Id :*: Id :*: Id :*: Const(2) :*: Const(54) :*: Const(4)  :+: Id :*: Id :*: Id :*: Id :*:  Const(53) :+: Id :*: Const(3) :*: Const(0))
