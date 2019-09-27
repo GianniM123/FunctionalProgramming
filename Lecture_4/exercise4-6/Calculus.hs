@@ -47,7 +47,9 @@ derive (Const _) = Const (0)
 derive _ = Const (1)
 
 
--- simplify (Id :*: Id :*: Id :*: Id :*: Const(2) :*: Const(54) :*: Const(4)  :+: Id :*: Id :*: Id :*: Id :*:  Const(53) :+: Id :*: Const(3) :*: Const(0))
+-- simplify (Id :*: Id :*: Id :*: Id :*: Const(2) :*: Const(54) :*: Const(4)  :+: Id :*: Id :*: Id :*: Id :*:  Const(53) :+: Id :*: Const(3) :*: Const(0))\
+-- simplify (Id :*: Id :*: Id :*: Id :*: Prim Cos :.: Const(2)  :+: Id :*: Id :*: Id :*: Id :*: Prim Cos :.: Const(2))
+
 simplify :: Function -> Function
 simplify (Const 0 :*: _) = Const 0
 simplify (_ :*: Const 0) = Const 0
