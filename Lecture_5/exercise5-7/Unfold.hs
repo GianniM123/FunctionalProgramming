@@ -1,3 +1,7 @@
+{-
+ Gianni Monteban 1047546
+ Martijn Vogelaar 1047391
+-}
 module Unfold
 where
 
@@ -48,9 +52,6 @@ generateNewPrime i l = if elem (0) (map (\x -> i `mod` x) l) == False then Just(
 primes :: [Integer]
 primes = 2: unfoldr (\(l) -> generateNewPrime ((last l)+1) (l)) [2]
 
---apo :: (t -> Either [a] (a, t)) -> t -> [a]
--- unfoldr2 :: (t -> Maybe (a, t)) -> t -> [a]
--- unfoldr2 f t = apo (maybeToEither(f)) (t)
 
 -- the ++ operator
 add :: [a] -> [a] -> [a]

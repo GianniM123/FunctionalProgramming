@@ -1,3 +1,7 @@
+{-
+ Gianni Monteban 1047546
+ Martijn Vogelaar 1047391
+-}
 module Hardware
 where
 
@@ -25,8 +29,6 @@ I >< I  =  O
 mapr :: ((a, state) -> (b, state)) -> (([a], state) -> ([b], state))
 mapr f = \(as, s) -> foldr g ([],s) as
   where g a (bs, s) = let (b, sn) = f (a, s) in (b:bs, sn)
-
-  --(map (\z -> fst (f (z,y))) (x), (snd (f (head (x), y)) ))
 
 type Carry  =  Bit
 
