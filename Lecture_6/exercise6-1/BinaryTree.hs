@@ -6,9 +6,8 @@ data Tree elem = Empty | Node (Tree elem) elem (Tree elem)
 
 instance (Eq elem) => Eq (Tree elem) where
   Empty == Empty = True
-  Empty == _ = False
-  _ == Empty = False
   Node l1 e1 r1 == Node l2 e2 r2 = e1 == e2 && l1 == l2 && r1 == r2
+  _ == _ = False
 
 instance (Ord elem) => Ord(Tree elem) where
   Empty <= Empty = True
@@ -29,12 +28,3 @@ ex3  ::  Tree Char
 ex3  =  Node (Node Empty 'a' Empty) 'k' (Node Empty 'z' Empty)
 ex4  ::  Tree Char
 ex4  =  Node (Node Empty 'a' Empty) 'C' (Node Empty 'z' Empty)
-
--- size :: Tree elem -> Int
--- minHeight, maxHeight :: Tree elem -> Int
--- member :: (Eq elem) => elem -> Tree elem -> Bool
--- preorder, inorder, postorder :: Tree elem -> [elem]
--- layout :: (Show elem) => Tree elem -> String
--- build :: [elem] -> Tree elem
--- balanced :: [elem] -> Tree elem
--- create :: Int -> Tree ()

@@ -22,8 +22,8 @@ y
 !y
 True
 False
-x || y && not x && y
-!(x || y && not x && y)
+x == y
+x != y
 -}
 
 
@@ -44,17 +44,21 @@ instance Monoid Additive where
     x `mappend` y = S1 (fromSum x + fromSum y)
 
 
-newtype OrdList elem = Ord {list::[elem]}
+newtype OrdList elem = Ord [elem]
     deriving (Show)
 
 instance (Ord elem) => Monoid (OrdList elem) where
     mempty = Ord []
-    x `mappend` y = Ord ( sort (list x ++ list y))
+    (Ord x) `mappend` (Ord y) =  Ord (foldr insert y x)
 
 
--- instance (Ord elem) => Monoid (OrdList elem) where
+f (Ord a) = a
+newSort :: (Ord a) => [a] -> [a]
+newSort xs = f . reduce $ map (\x -> Ord[x]) xs
 
--- foldm :: (a -> a -> a) -> a -> ([a] -> a)
+
+foldm :: (a -> a -> a) -> a -> ([a] -> a)
+foldm f e = \x -> 
 
 kpg :: (Bit, Bit) -> (Carry -> Carry)
 kpg (O,  O  )  =  \ _c  -> O  -- kill
