@@ -1,0 +1,95 @@
+tp: ordered xs -> ordered (insert x xs)
+if first true, second is true
+
+
+ordered :: (Ord a) => [a] -> Bool
+ordered [] = True
+ordered (x : [] ) = True
+ordered (x : y : zs) = x <= y && ordered (y : zs)
+
+
+base case:
+	assume xs = []
+	assume orderd []
+	
+	ordered (insert x [])
+	=> ordered ([x]) (line 3)
+	=> True (line 8)
+
+induction case:
+	assume xs = y : ys
+	assume ordered (insert x ys) (induction hypothoses)
+	assume ordered (y : ys)
+	
+	ordered (insert x (y : ys))
+	=> case:
+		=> x <= y: ordered (x : y : ys) (line 4)
+		=> x <= y && ordered (y:ys) (line 9)
+		=> True && ordered (y:ys) (A)
+		=> True && True (A)
+		=> True (&&)
+	
+	=> case x > y:
+		=> ordered (y : insert x ys) (line 4)
+		=> y <= head(insert x y) && ordered (insert x ys) (line 9)
+		=> True && True (basic know && induction hypotheses)
+		=> True
+
+
+TP: map f (as ++ bs) = map f as ++ map f bs
+
+base case:
+	assume as  = []
+	
+	map f ([] ++ bs)
+	=> map f bs (line 1)
+	=> [] ++ map f bs (line 1)
+	=> map f [] ++ map f bs (line 5)
+
+induction case:
+	assume : as = q :qs
+	map f (qs ++ bs) = map f qs ++ map f bs (induction hypotheses)
+	map f ((q :qs) ++ bs)
+	=> map f (q : qs ++ bs) (line 2)
+	=> f q : map f (qs ++ bs) (line 6)
+	=> f q : map f qs ++ map f bs (induction hypotheses)
+	=> map f (q:qs) ++ map f bs (line 6)
+
+FOLDR FUSION LAW
+f (g a b) = h a (f b) -> f (foldr g e xs) = foldr h (f e) xs 
+	LHS	      ->		RHS
+1. write to RHS
+2. identity f,g, h
+3. prove LHS
+
+id :: [a] -> [a]
+id xs = foldr (\b c -> b : c) [] xs
+
+reverse :: [a] -> [a]
+reverse xs = foldr (\b c -> c ++ [b]) [] xs
+
+reverse (reverse xs) = id xs
+reverse (foldr (\b c -> c ++[b]) [] xs) = foldr (\b c -> b : c)  (reverse []) xs
+   f		     g		 e  xs			h	    f     e   xs
+
+to prove:
+=> reverse ((\b c -> c ++ [b]) a b) = (\b c -> b : c) (a) (reverse b)
+
+=> reverse (b ++ [a]) = a : (reverse b)
+reverse (b ++ [a])
+=> reverse [a] ++ reverse b
+=> reverse (a:[]) ++ reverse b 
+=> (reverse [] ++ [a]) ++ reverse b (line 11)
+=> ([] ++ [a]) ++ reverse b (line 10)
+=> [a] ++ reverse b (line 1)
+=> (a:[]) ++ reverse b 
+=> a : [] ++ reverse b (line 2)
+=> a : reverse b (line 1)
+
+
+7.6 steps:
+1. add xs
+2. map as foldr
+3. write as RHS
+
+* courtesey of Ralf Hinze
