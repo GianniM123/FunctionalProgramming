@@ -1,3 +1,39 @@
 Gianni Monteban & Martijn Vogelaar
 1047546 & 1047391
 
+
+foldr-fusion law: 
+f (g a b) = h a (f b) -> f (foldr g e xs) = foldr h (f e) xs 
+
+map f xs = foldr (\y ys-> f y : ys) [] xs
+
+7.6.1
+prove: foldr g e . map f = foldr(g .f) e
+
+
+foldr g e . map f xs = foldr(g .f) e xs
+
+foldr g e . map f xs  = foldr(g .f) e xs
+foldr g e . foldr (\y ys-> f y : ys) [] xs = foldr(g .f) e xs
+foldr g e (foldr (\y ys-> f y : ys) [] xs) = foldr g (f e) xs
+
+RHS is correct at this point
+We got stuck since we don't know how to rewrite the LHS to match the foldr-fusion law
+
+7.6.2
+
+map (f . g) = map f . map g
+map (f . g) xs = map f . map g xs
+foldr (\y ys -> f (g y) : ys) [] xs = foldr (\y ys -> f y : ys) [] . map g xs
+
+RHS is correct
+we do not know how to solve the LHS to match the given law
+
+7.6.3
+reduce = foldr (<>) mempty
+
+reduce . concat = reduce . map reduce
+reduce . concat (x:xs) = reduce . map reduce (x:xs)
+foldr (<>) mempty . concat (x:xs) = foldr (<>) mempty . map foldr (<>) mempty (x:xs)
+
+we do not have any clue how to proceed.
