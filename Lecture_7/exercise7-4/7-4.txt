@@ -1,0 +1,48 @@
+Gianni Monteban & Martijn Vogelaar
+1047546 & 1047391
+
+foldbtree: it applies a function to all the elements in the three and eventually returns a value based on all values in the tree
+tips: it creates a list of all values in the tree
+
+proof:
+map f (tips t) = tips (mapBTree f t)
+
+base case:
+    let t = (Tip t)
+    map f (tips (Tip t)) = tips (mapBTree f (Tip t))
+
+    map f (tips (Tip t))
+    map f (foldBTree (++) (mapBTree (:[]) (Tip t))) (rule 5)
+    map f (foldBTree (++) Tip ((:[]) t)) (rule 1)
+    map f (foldBTree (++) Tip [t]) (base knowledge)
+    map f [t] (rule 3)
+    f t : map f [] (rule ex7.3 - 4)
+    f t : [] (rule ex7.3 - 4)
+    [f t] (base knowledge)
+    foldBTree (++) (Tip [f t]) (rule 3)
+    foldBTree (++) (Tip (f t) : []) (base knowledge)
+    foldBTree (++) (mapBTree (:[]) (Tip f t)) (rule 1)
+    tips (Tip f t) (rule 5)
+    tips (mapBTree f (tip t)) (rule 1)
+
+induction case:
+    let t = (Bin a b)
+    map f (tips t) = tips (mapBTree f t) = IH
+    map f (tips (Bin a b)) = tips (mapBTree f (Bin a b))
+
+    map f (tips (Bin a b))
+    map f (foldBTree (++) (mapBTree (:[]) (Bin a b))) (rule 5)
+    map f (foldBTree (++) (Bin (mapBTree (:[]) (a)) (mapBTree (:[]) (b) ))) (rule 2)
+    map f ((++) (foldBTree (++) (mapBTree (:[]) (a))) (foldBTree (++) (mapBTree (:[]) (b) ))) (rule 4)
+    map f ((foldBTree (++) (mapBTree (:[]) (a))) ++ (foldBTree (++) (mapBTree (:[]) (b) ))) (base knowledge)
+    (map f (foldBTree (++) (mapBTree (:[]) (a)))) ++ (map f (foldBTree (++) (mapBTree (:[]) (b) ))) (proof last exercise)
+    map f (tips a) ++ map f (tips b) (rule 5)
+    tips (mapBtree f a) ++ tips (mapBTree f b) (IH)
+    foldBTree (++) (mapBTree (:[]) (mapBTree f a)) ++ foldBTree (++) (mapBTree (:[]) (mapBTree f b)) (rule 5)
+    (++) (foldBTree (++) (mapBTree (:[]) (mapBTree f a))) (foldBTree (++) (mapBTree (:[]) (mapBTree f b))) (base knowledge)
+    foldBTree (++) (Bin (mapBTree (:[]) (mapBTree f a)) (mapBTree (:[]) (mapBTree f b))) (rule 4)
+    foldBTree (++) (mapBTree (:[]) (Bin (mapBTree f a) (mapBTree f b))) (rule 2)
+    tips (Bin (mapBTree f a) (mapBTree f b)) (rule 5)
+    tips (mapBTree f (Bin a b)) (rule 2)
+ 
+
