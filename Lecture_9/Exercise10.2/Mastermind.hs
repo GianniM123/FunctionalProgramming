@@ -2,10 +2,18 @@ module Mastermind
 where
 import System.Random
 
-dice :: IO Int
-dice = getStdRandom (randomR (1,6))
+data Colors = White | Silver | Green | Red | Orange | Pink | Yellow | Blue deriving (Eq,Show)
+listColors = [White,Silver,Green,Red,Orange,Pink,Yellow,Blue]
 
-roll :: IO Int
-roll  =  do  a <- dice
-             b <- dice
-             return (a + b)
+
+
+
+randomColor :: IO Colors
+randomColor = randomRIO(0, length listColors-1) >>= return . (listColors !!)
+
+
+-- randomColors :: Int -> IO[Colors]
+-- randomColors 0 = []
+-- randomColors x = [randomColor] ++ (randomColors (x-1))
+
+-- createCode :: Int -> 
