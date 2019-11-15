@@ -10,10 +10,6 @@ import Data.List.Split
 data Colors = White | Silver | Green | Red | Orange | Pink | Yellow | Blue | Cyan | Purple | Gold | Black | Grey | Brown  deriving (Eq,Ord,Show)
 listColors = [White,Silver,Green,Red,Orange,Pink,Yellow,Blue,Cyan,Purple,Gold,Black,Grey, Brown]
 
-data Symbol = A | B | D | F | G deriving (Eq,Show)
-symbolList = [A,B,D,F,G]
-
-
 main :: IO ()
 main = do
     putStrLn "Welcome to Mastermind, how many guesses do you want?"
