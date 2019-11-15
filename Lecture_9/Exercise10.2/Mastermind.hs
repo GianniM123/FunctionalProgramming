@@ -1,6 +1,7 @@
 module Main
 where
 import System.Random
+import System.Exit
 import Control.Monad
 import System.IO
 import Data.List
@@ -19,12 +20,20 @@ main = do
     maxTries <- readLn
     putStrLn "Okay and how long should the code length be?"
     codeLength <- readLn
-    putStr "I think of a "
+    putStrLn "Nice and with how many colors do you want to play (maximum of 15)?"
+    nrOfColors <- readLn
+    if(nrOfColors > length listColors) then
+        exitSuccess
+    else
+        putStr ""
+    putStr "So, I'm thinking of "
     putStr . show $ codeLength
-    putStr " colors, make a guess you have a maximum of "
+    putStr " colors, you have a maximum of "
     putStr . show $ maxTries
-    putStrLn " tries."
-    colors <- randomColors codeLength listColors
+    putStrLn " tries and you can choose from the following colors:"
+    let playColors = take nrOfColors listColors
+    print playColors
+    colors <- randomColors codeLength listColors nrOfColors
     y <- gameLoop colors 0 maxTries codeLength
     putStrLn y
     putStr "The solution was: "
@@ -93,12 +102,12 @@ parseInput x
  | x == "Brown" = Brown
  | otherwise = error ("Unknown color")
 
-randomValue :: [Colors] -> IO Colors
-randomValue list = randomRIO(0, length list-1) >>= return . (list !!)
+randomValue :: [Colors] -> Int -> IO Colors
+randomValue list i = randomRIO(0, i-1) >>= return . (list !!)
 
 
-randomColors :: Int -> [Colors]-> IO [Colors]
-randomColors 0 list = return []
-randomColors x list = replicateM x $ randomValue list
+randomColors :: Int -> [Colors]-> Int -> IO [Colors]
+randomColors 0 list _ = return []
+randomColors x list i = replicateM x $ randomValue list i
 
 -- createCode :: Int -> 
