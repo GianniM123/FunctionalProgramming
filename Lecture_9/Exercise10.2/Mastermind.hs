@@ -6,8 +6,8 @@ import System.IO
 import Data.List
 import Data.List.Split
 
-data Colors = White | Silver | Green | Red | Orange | Pink | Yellow | Blue deriving (Eq,Ord,Show)
-listColors = [White,Silver,Green,Red,Orange,Pink,Yellow,Blue]
+data Colors = White | Silver | Green | Red | Orange | Pink | Yellow | Blue | Cyan | Purple | Gold | Black | Grey | Brown  deriving (Eq,Ord,Show)
+listColors = [White,Silver,Green,Red,Orange,Pink,Yellow,Blue,Cyan,Purple,Gold,Black,Grey, Brown]
 
 data Symbol = A | B | D | F | G deriving (Eq,Show)
 symbolList = [A,B,D,F,G]
@@ -85,6 +85,12 @@ parseInput x
  | x == "Pink" = Pink
  | x == "Yellow" = Yellow
  | x == "Blue" = Blue
+ | x == "Cyan" = Cyan
+ | x == "Purple" = Purple
+ | x == "Gold" = Gold
+ | x == "Black" = Black
+ | x == "Grey" = Grey
+ | x == "Brown" = Brown
  | otherwise = error ("Unknown color")
 
 randomValue :: [Colors] -> IO Colors
