@@ -1,4 +1,4 @@
-module Mastermind
+module Main
 where
 import System.Random
 import Control.Monad
@@ -15,6 +15,11 @@ maxTries = 12
 
 main :: IO ()
 main = do
+    putStr "I think of a "
+    putStr . show $ codeLength
+    putStr " colors, make a guess you have a maximum of "
+    putStr . show $ maxTries
+    putStrLn " tries."
     colors <- randomColors codeLength listColors
     -- print colors
     gameLoop colors 0

@@ -1,4 +1,7 @@
-
+{- 
+martijn vogelaar & gianni monteban
+1047391 & 1047546
+-}
 module Huffman
 where
 import Satellite
