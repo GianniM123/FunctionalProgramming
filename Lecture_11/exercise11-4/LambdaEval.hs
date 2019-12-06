@@ -73,7 +73,7 @@ eval1 (Abs v b)      = EN $ \env -> FunVal env v b
 eval1 (ef :@: ea)    = eval1 ef >>= \n1 ->
                        eval1 ea >>= \n2 ->
                        let FunVal env var body = n1
-                        in return(fromEN (eval1 body) [(var, n2)])
+                        in return(fromEN (eval1 body) ((var, n2):env))
     
 eval2 :: Expr -> Environ (Either String Value)
 eval2 (Lit i)        = return $ Right(IntVal i)
