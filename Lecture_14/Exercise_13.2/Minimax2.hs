@@ -1,6 +1,12 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 
+{-
+Gianni Monteban & Martijn Vogelaar
+1047546 & 1047391
+-}
+
+
 module Minimax2
 where
 import Squiggol
@@ -10,7 +16,7 @@ data Tree elem  =  Node elem [Tree elem]
 data TREE elem tr = NODE elem [tr] 
 
 
-t = Node "S" [Node "a" [Node "c" []], Node "b" []]
+t = Node "S" [Node "a" [Node "c" []], Node "b" [Node "d" []]]
 
 instance Functor (TREE elem) where
     fmap f (NODE elem rs) = NODE elem (map f rs)
@@ -30,4 +36,4 @@ gametree :: (position -> [position]) -> (position -> Tree position)
 gametree f = unfold (\position -> NODE position (f position))
 
 winning  :: Tree position -> Bool
-winning _ = True
+winning = fold (\(NODE p ps) -> not (and ps))
