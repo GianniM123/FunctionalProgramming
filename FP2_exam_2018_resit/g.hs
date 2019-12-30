@@ -45,6 +45,12 @@ g3 af bg = fmap (\a -> fmap (\b -> (a,b)) bg) af
 g4 :: (Applicative f, Applicative g) => a -> f (g a)
 g4 a = pure (pure a)
 
+g5 :: (Monad m) => a -> m (m a)
+g5 a = return (return a)
+
+g6 :: (Monad m) => m (m a) -> m a
+g6 a = a >>= (\x -> x) 
+
 
 main :: IO()
 main = do
