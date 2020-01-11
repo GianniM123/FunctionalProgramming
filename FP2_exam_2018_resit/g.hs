@@ -29,9 +29,13 @@ eval env (Or v1 v2) = case (eval env v1) of
                                  Just y -> Just (x || y)
 
 all_valuations :: [var] -> [val] -> [Environment var val]
+all_valuations [] [] = [[]]
+all_valuations _ [] = [[]]
 all_valuations [] _ = [[]]
-all_valuations (x:[]) ys = [[(x,y)] | y <- ys]
-all_valuations (x:xs) ys = [[(x,y)] | y <- ys] ++ all_valuations xs ys
+all_valuations xs ys = [[(x,y)] | x <- xs, y <-ys]
+-- all_valuations [] _ = [[]]
+-- all_valuations (x:[]) ys = [[(x,y)] | y <- ys]
+-- all_valuations (x:xs) ys = [[(x,y)] | y <- ys] ++ all_valuations xs ys
 
 vars :: (Eq var) => Formula var -> [var]
 vars (Var var) = [var]
@@ -142,10 +146,19 @@ cmdFunc = do
   doCommands theCommands
 
 
--- functor and applicative the fuck how
--- data M a = M (IO a)
--- instance Functor M where
-  --(a -> b) -> IO a -> IO b
+data M a = M (IO a)
+instance Functor M where
+  --fmap (a -> b) -> IO a -> IO b
+  fmap f (M io) = M $ (io >>= \a -> return (f a))
+
+instance Applicative M where
+  -- a -> M a
+  pure a = M $ return (a)
+
+  -- M (a -> b) -> M a -> M b
+  (M f) <*> (M io) = M $ (io >>= \a ->
+                 f >>= \func ->
+                 pure (func a))
 
 data Tree elem      = Empty | Node (Tree elem) elem (Tree elem)
 data TREE elem tree = EMPTY | NODE tree elem tree
@@ -216,4 +229,4 @@ readUntilNotMatch (x:y:xs)
 
 ownGroupBy :: [Int] -> [[Int]]
 ownGroupBy [] = [[]]
-ownGroupBy list = filter (\x-> length x > 0)$ ([readedList] ++ (ownGroupBy (drop (length readedList) list))) where readedList = readUntilNotMatch list) (collect (nub (sort numbers))))
+ownGroupBy xs = let (a,b) = splitAt (length (readUntilNotMatch xs)) xs in a : ownGroupBy b
